@@ -1,0 +1,141 @@
+#include <stdio.h>
+
+// Function to accept matrix elements
+void acceptMatrix(int matrix[][10], int rows, int cols) {
+    printf("Enter matrix elements:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+}
+
+// Function to display matrix elements
+void displayMatrix(int matrix[][10], int rows, int cols) {
+    printf("Matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Function to add two matrices
+void addMatrix(int result[][10], int matrix1[][10], int matrix2[][10], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = matrix1[i][j] + matrix2[i][j];
+        }
+    }
+}
+
+// Function to subtract two matrices
+void subtractMatrix(int result[][10], int matrix1[][10], int matrix2[][10], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = matrix1[i][j] - matrix2[i][j];
+        }
+    }
+}
+
+// Function to multiply two matrices
+void multiplyMatrix(int result[][10], int matrix1[][10], int matrix2[][10], int rows1, int cols1, 
+int cols2) {
+    for (int i = 0; i < rows1; i++) {
+        for (int j = 0; j < cols2; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < cols1; k++) {
+                result[i][j] += matrix1[i][k] * matrix2[k][j];
+            }
+        }
+    }
+}
+
+// Function to transpose a matrix
+void transposeMatrix(int result[][10], int matrix[][10], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[j][i] = matrix[i][j];
+        }
+    }
+}
+
+int main() {
+    int matrix1[10][10], matrix2[10][10], result[10][10];
+    int rows1, cols1, rows2, cols2;
+    int choice;
+    
+    printf("Enter the number of rows and columns of matrix 1: ");
+    scanf("%d %d", &rows1, &cols1);
+    acceptMatrix(matrix1, rows1, cols1);
+    
+    printf("Enter the number of rows and columns of matrix 2: ");
+    scanf("%d %d", &rows2, &cols2);
+    acceptMatrix(matrix2, rows2, cols2);
+    
+    while (1) {
+        printf("\nMenu:\n");
+        printf("1. Display matrices\n");
+        printf("2. Add matrices\n");
+        printf("3. Subtract matrices\n");
+        printf("4. Multiply matrices\n");
+        printf("5. Transpose matrix 1\n");
+        printf("6. Transpose matrix 2\n");
+        printf("7. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                printf("\nMatrix 1:\n");
+                displayMatrix(matrix1, rows1, cols1);
+                printf("\nMatrix 2:\n");
+                displayMatrix(matrix2, rows2, cols2);
+                break;
+            case 2:
+                if (rows1 == rows2 && cols1 == cols2) {
+                    addMatrix(result, matrix1, matrix2, rows1, cols1);
+                    printf("\nResultant matrix after addition:\n");
+                    displayMatrix(result, rows1, cols1);
+                } else {
+                    printf("Matrices cannot be added due to different dimensions.\n");
+                }
+                break;
+            case 3:
+                if (rows1 == rows2 && cols1 == cols2) {
+                    subtractMatrix(result, matrix1, matrix2, rows1, cols1);
+                    printf("\nResultant matrix after subtraction:\n");
+                    displayMatrix(result, rows1, cols1);
+                } else {
+                    printf("Matrices cannot be subtracted due to different dimensions.\n");
+                }
+                break;
+            case 4:
+                if (cols1 == rows2) {
+                    multiplyMatrix(result, matrix1, matrix2, rows1, cols1, cols2);
+                    printf("\nResultant matrix after multiplication:\n");
+                    displayMatrix(result, rows1, cols2);
+                } else {
+                    printf("Matrices cannot be multiplied due to incompatible dimensions.\n");
+                }
+                break;
+            case 5:
+                transposeMatrix(result, matrix1, rows1, cols1);
+                printf("\nTransposed matrix 1:\n");
+                displayMatrix(result, cols1, rows1);
+                break;
+            case 6:
+                transposeMatrix(result, matrix2, rows2, cols2);
+                printf("\nTransposed matrix 2:\n");
+                displayMatrix(result, cols2, rows2);
+                break;
+            case 7:
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please enter a valid option.\n");
+        }
+    }
+    return 0;
+}
